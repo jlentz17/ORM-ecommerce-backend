@@ -37,8 +37,10 @@ router.post("/", (req, res) => {
     categoryName: req.body.category_name,
   })
     .then((dbCategoryData) => res.json(dbCategoryData))
-    .catch(err);
-  res.status(500).json(err);
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json(err);
+    });
 });
 
 // PUT /api/category/1
