@@ -28,7 +28,8 @@ Product.init(
       type: DataTypes.DECIMAL,
       allowNull: false,
       validates: {
-        decimalNumbers: true
+        isDecimal: true
+        // decimalNumbers: true
       }
     }
   },
