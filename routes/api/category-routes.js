@@ -3,7 +3,9 @@ const { Category, Product } = require("../../models");
 
 // GET /api/category
 router.get("/", (req, res) => {
-  Category.findAll()
+  Category.findAll({
+    include: Product
+  })
     .then((dbCategoryData) => res.json(dbCategoryData))
     .catch((err) => {
       console.log(err);
@@ -17,6 +19,9 @@ router.get("/:id", (req, res) => {
     where: {
       id: req.params.id,
     },
+    include: {
+      model: Product
+    }
   })
     .then((dbCategoryData) => {
       if (!dbCategoryData) {
@@ -33,8 +38,7 @@ router.get("/:id", (req, res) => {
 // POST /api/category
 router.post("/", (req, res) => {
   Category.create({
-    id: req.body.id,
-    categoryName: req.body.category_name,
+    category_name: req.body.category_name
   })
     .then((dbCategoryData) => res.json(dbCategoryData))
     .catch((err) => {

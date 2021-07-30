@@ -10,7 +10,7 @@ router.get("/", (req, res) => {
       {
         model: Product,
         through: ProductTag,
-        as: "products"
+        as: "products",
       },
     ],
   })
@@ -32,7 +32,7 @@ router.get("/:id", (req, res) => {
       {
         model: Product,
         through: ProductTag,
-        as: "products"
+        as: "products",
       },
     ],
   })
@@ -52,40 +52,34 @@ router.get("/:id", (req, res) => {
 
 router.post("/", (req, res) => {
   // create a new tag
-  Tag.create({
-    tag_name: req.body.tag_name
-  })
-  .then((dbTagData) => {
-    if (!dbTagData) {
-      res.status(404).json({ message: "No tag found with this id" });
-      return;
-    }
-    res.json(dbTagData);
-  })
-  .catch((err) => {
-    console.log(err);
-    res.status(500).json(err);
-  });
+  Tag.create(req.body)
+    .then((dbTagData) => {
+      res.json(dbTagData);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json(err);
+    });
 });
 
 router.put("/:id", (req, res) => {
   // update a tag's name by its `id` value
   Tag.update(req.body, {
     where: {
-      id: req.body.id
-    }
+      id: req.params.id,
+    },
   })
-  .then((dbTagData) => {
-    if (!dbTagData) {
-      res.status(404).json({ message: "No tag found at this id" });
-      return;
-    }
-    res.json(dbTagData)
-  })
-  .catch((err) => {
-    console.log(err);
-    res.status(500).json(err)
-  })
+    .then((dbTagData) => {
+      if (!dbTagData) {
+        res.status(404).json({ message: "No tag found at this id" });
+        return;
+      }
+      res.json(dbTagData);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json(err);
+    });
 });
 
 router.delete("/:id", (req, res) => {
